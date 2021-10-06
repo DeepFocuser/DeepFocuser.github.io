@@ -10,22 +10,22 @@ layout:
 # The tabs of sidebar
 tabs:
   # format: <filename_without_extension>: <value>
-  home: Home
-  categories: Categories
-  tags: Tags
-  archives: Archives
-  about: About
+  home: 홈
+  categories: 카테고리
+  tags: 태그
+  archives: 타임라인
+  about: About Me
 
 # the text displayed in the search bar & search results
 search:
-  hint: search
-  cancel: Cancel
-  no_results: Oops! No result founds.
+  hint: 찾기
+  cancel: 취소
+  no_results: 아무것도 찾을 수 없습니다.
 
 panel:
-  lastmod: Recent Update
-  trending_tags: Trending Tags
-  toc: Contents
+  lastmod: 최근 업데이트
+  trending_tags: 태그
+  toc: 컨텐츠
 
 #  The liquid date format › http://strftime.net/
 date_format:
@@ -71,11 +71,11 @@ post:
   read_time:
     unit: min
     prompt: read
-  relate_posts: Further Reading
+  relate_posts: 
   share: Share
   button:
-    next: Newer
-    previous: Older
+    next: 다음
+    previous: 이전
     copy_code:
       succeed: Copied!
     share_link:
