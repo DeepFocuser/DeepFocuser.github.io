@@ -1,7 +1,7 @@
 ---
 title: Beam Search Decoder
 author: JONGGON KIM
-date: 2021-10-07 00:00:00 +0900
+date: 2021-10-07 20:00:00 +0900
 categories: [AI, 자연어 처리, 논문리뷰]
 tags: [Beam Search]
 math: true
