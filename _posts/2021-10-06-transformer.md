@@ -65,10 +65,11 @@ Transformer는 오로지 Self-attention에 의존한 첫번째 변환 모델이�
     - encoder의 sub-layer 2개에 + 1개의 sub-layer를 더 넣음(multi-head attention)
       - encoder stack의 출력에 대해  multi-head-attention을 수행한다. 
     - residual connection 사용 / layer normalization 사용
-    - `modified self-attention sub-layer`(잘 이해가 가지 않는 내용임)
+    - `modified self-attention sub-layer`
       - 위치들이 다음 위치에 주목하는 것을 방지 하기 위한 장치
       - 이 masking은 `output embeddings이 한 위치에서 영향이 사라진다는 사실과 결합되어` i위치에 대한 예측이 위치 i보다 작은 위치에서 알려진 출력에만 의존할 수 있도록 한다.
           - `무슨 말인지 와닿지 않는다.(1)`
+
   - ### Attention
     ![Desktop View](https://github.com/DeepFocuser/DeepFocuser.github.io/blob/gh-pages/post/transformer/attention.PNG?raw=true){: width="1000" height="600" }
 
@@ -111,8 +112,10 @@ Transformer는 오로지 Self-attention에 의존한 첫번째 변환 모델이�
     $$ FFN(x) = max(0, xW_{1} + b_{1})W_{2} + b_{2} $$
     선형 변환은 다른 위치들에서 동일하지만, layer마다 다른 파라미터들을 사용한다. 
   - ### Embeddings and Softmax
-    다른 sequence 변환 모델과 비슷하게, 우리는 input tokens 과 output tokens를 $d_{model}$ 차원 벡터로 바꾸기 위해 학습된 embeddings 을 사용한다. 우리는 또한 decoder 출력을 예측된 next-token 확률로 바꾸기 위해 학습된 선형 변환과 softmax함수를 사용한다. 우리 모델에서는 2개의 embedding layers 와 pre-softmax 선형 변환 간에 같은 가중치 행렬을 공유한다. embedding layer에서는 $\sqrt{d_{model}}$을 가중치에 곱한다.
-    - `코드를 봐야 알 것 같다.(3)`
+    다른 sequence 변환 모델과 비슷하게, 우리는 input tokens 과 output tokens를 $d_{model}$ 차원 벡터로 바꾸기 위해 학습된 embeddings 을 사용한다. 우리는 또한 decoder 출력을 예측된 next-token 확률로 바꾸기 위해 학습된 선형 변환과 softmax함수를 사용한다. 우리 모델에서는 2개의 embedding layers 와 pre-softmax(예측 softmax) 선형 변환 간에 같은 가중치 행렬을 공유한다. embedding layer에서는 $\sqrt{d_{model}}$을 가중치에 곱한다.
+    - `코드를 봐야 알 것 같다.(3)` - 해결
+      - [코드와 설명 주석이 있는 링크]()
+      - https://nlp.seas.harvard.edu/2018/04/03/attention.html 에 Shared Embeddings 이란 제목으로 설명되어 있다.
   - ### Positional Encoding
     transformer는 recurrence 와 convolution을 포함하고 있지 않기 때문에 모델이 시간 순서정보를 사용하게 하기 위해서, sequence의 토큰의 상대적 위치 또는 절대적 위치에 어떤 정보를 넣어줘야만 한다. 이를 위해서 encoder와 decoder stacks의 아랫부분의 input embeddings에 `positional encoding`이라는 것을 추가한다. embeddings과 `positional encoding`이 덧셈이 가능하게 하기 위해 `positional encoding` 은  embeddings과 같이 $d_{model}$ 차원을 가진다. 
 
@@ -123,6 +126,9 @@ Transformer는 오로지 Self-attention에 의존한 첫번째 변환 모델이�
     $$ PE_{pos, 2i+1} = cos({position \over 10000^{2i \over d_{model}}}) $$
 
     - `여기 내용을 이해가기가 쉽지 않다.(4)`
+      - seq2seq 모델같은 경우는 RNN을 사용하므로, 입력 자체에 시간 속성이 부여되어 있다. 그런데 transformer같은 경우는 그런게 없다. 그래서 transformer의 encoder, decoder에 시간 속성을 부여하기 위해서 위의 sin, cos 함수를 더해주는 것이다.
+      - [코드와 설명 주석이 있는 링크]()
+      - [위 코드에서 생성한 Positional Encoding 그림]() 
 
 아래의 내용부터는 그렇게 중요하다고 생각되지 않는다. 
 따라서 무슨내용을 다뤘는지만 간단히 설명하고 넘어간다.
