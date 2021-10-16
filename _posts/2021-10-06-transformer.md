@@ -66,9 +66,10 @@ Transformer는 오로지 Self-attention에 의존한 첫번째 변환 모델이�
       - encoder stack의 출력에 대해  multi-head-attention을 수행한다. 
     - residual connection 사용 / layer normalization 사용
     - `modified self-attention sub-layer`
-      - 위치들이 다음 위치에 주목하는 것을 방지 하기 위한 장치
-      - 이 masking은 `output embeddings이 한 위치에서 영향이 사라진다는 사실과 결합되어` i위치에 대한 예측이 위치 i보다 작은 위치에서 알려진 출력에만 의존할 수 있도록 한다.
-          - `무슨 말인지 와닿지 않는다.(1)`
+      - 현재 위치가 다음 위치에 주목하는 것을 방지 하기 위한 장치
+      - 이 masking은 `output embeddings들이 한 위치씩 offset되어 있다는 사실과 결합되어` i위치에 대한 예측이 반드시 위치 i보다 작은 위치에서 알려진 출력에만 의존할 수 있도록 한다.
+          - `무슨 말인지 와닿지 않는다.(1)` - 해결
+            - Transformer는 문장 행렬로 입력을 한꺼번에 받으므로 현재 시점의 단어를 예측하고자 할 때, 입력 문장 행렬로부터 미래 시점의 단어 까지도 참고할 수 있는 현상이 발생한다. 이 문제를 해결하기 위해 Transformer의 decoder는 현재 시점의 예측에서 현재 시점보다 미래에 있는 단어를 참고하지 못하도록 마스크를 씌워준다는 얘기이다. 자세한 설명은 [여기](https://wikidocs.net/31379)를 보면 될 것 같다. 
 
   - ### Attention
     ![Desktop View](https://github.com/DeepFocuser/DeepFocuser.github.io/blob/gh-pages/post/transformer/attention.PNG?raw=true){: width="1000" height="600" }
@@ -105,10 +106,11 @@ Transformer는 오로지 Self-attention에 의존한 첫번째 변환 모델이�
       - encoder는 self-attention layers 들을 포함한다. self-attention layer에서 모든 keys, values, queries 는 같은 장소에서 오고, 이 경우에 encoder의 이전 layer의 output이다.
       encoder의 각 위치들은 encoder의 이전 layer의 모든 위치들에 주의를 기울일수 있다.  
       - 비슷하게, decoder의 self-attention layer는 decoder의 각 위치가 decoder의 해당 위치까지 그리고 그 위치를 포함하는 모든 위치에 주의를 기울일 수 있도록 한다. 자동 회귀 속성을 유지하려면 decoder에서 왼쪽으로의 정보 흐름을 방지해야 한다. 잘못된 연결에 해당하는 softmax 입력의 모든 값을 마스킹(-∞로 설정)하여 scaled dot-product Attention 내부에서 이것을 구현한다. (Figure 2를 보라.)
-        - `무슨 말인지 와닿지 않는다.(2)`
+        - `무슨 말인지 와닿지 않는다.(2)`-해결
+          - [여기](#Decoder) 의 `무슨 말인지 와닿지 않는다.(1)` 의 해결의 내용을 보면된다.
 
   - ### Position-wise Feed-Forward Networks
-    attention sub-layers 외에도 encoder 및 decoder의 각 계층에는 각 위치에 개별적이고 동일하게 적용되는 fully connected feed-forward network 가 포함된다. 이것은 사이에 ReLU 활성화가 있는 두 개의 선형 변환으로 구성된다.
+    attention sub-layers 외'에도 encoder 및 decoder의 각 계층에는 각 위치에 개별적이고 동일하게 적용되는 fully connected feed-forward network 가 포함된다. 이것은 사이에 ReLU 활성화가 있는 두 개의 선형 변환으로 구성된다.
     $$ FFN(x) = max(0, xW_{1} + b_{1})W_{2} + b_{2} $$
     선형 변환은 다른 위치들에서 동일하지만, layer마다 다른 파라미터들을 사용한다. 
   - ### Embeddings and Softmax
