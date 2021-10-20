@@ -70,7 +70,11 @@ Transformer는 오로지 Self-attention에 의존한 첫번째 변환 모델이�
       - 이 masking은 `output embeddings들이 한 위치씩 offset되어 있다는 사실과 결합되어` i위치에 대한 예측이 반드시 위치 i보다 작은 위치에서 알려진 출력에만 의존할 수 있도록 한다.
           - `무슨 말인지 와닿지 않는다.(1)` - 해결
             - Transformer는 문장 행렬로 입력을 한꺼번에 받으므로 현재 시점의 단어를 예측하고자 할 때, 입력 문장 행렬로부터 미래 시점의 단어 까지도 참고할 수 있는 현상이 발생한다. 이 문제를 해결하기 위해 Transformer의 decoder는 현재 시점의 예측에서 현재 시점보다 미래에 있는 단어를 참고하지 못하도록 마스크를 씌워준다는 얘기이다. 자세한 설명은 [여기](https://wikidocs.net/31379)를 보면 될 것 같다. 
-
+            - [코드와 설명 주석이 있는 링크](https://github.com/DeepFocuser/Pytorch-Transformer/blob/main/core/model/InputLayer.py)
+            - [위 코드에서 생성한 mask 그림](https://github.com/DeepFocuser/Pytorch-Transformer/blob/main/core/model/decoder_mask.png) 
+              - encoder와 decoder의 입력 문장에 <PAD> 토큰이 있는 경우 attention에서 제외해주는 mask도 같이 적용한 결과이다.
+              - <PAD> 토큰의 경우에는 실질적인 의미를 가진 단어가 아니므로, Transformer에서는 Key의 경우에 <PAD> 토큰이 존재한다면 이에 대해서는 계산을 제외하도록 마스킹(Masking)을 해준다.
+  
   - ### Attention
     ![Desktop View](https://github.com/DeepFocuser/DeepFocuser.github.io/blob/gh-pages/post/transformer/attention.PNG?raw=true){: width="1000" height="600" }
 
@@ -107,7 +111,7 @@ Transformer는 오로지 Self-attention에 의존한 첫번째 변환 모델이�
       encoder의 각 위치들은 encoder의 이전 layer의 모든 위치들에 주의를 기울일수 있다.  
       - 비슷하게, decoder의 self-attention layer는 decoder의 각 위치가 decoder의 해당 위치까지 그리고 그 위치를 포함하는 모든 위치에 주의를 기울일 수 있도록 한다. 자동 회귀 속성을 유지하려면 decoder에서 왼쪽으로의 정보 흐름을 방지해야 한다. 잘못된 연결에 해당하는 softmax 입력의 모든 값을 마스킹(-∞로 설정)하여 scaled dot-product Attention 내부에서 이것을 구현한다. (Figure 2를 보라.)
         - `무슨 말인지 와닿지 않는다.(2)`-해결
-          - [여기](#Decoder) 의 `무슨 말인지 와닿지 않는다.(1)` 의 해결의 내용을 보면된다.
+          - `무슨 말인지 와닿지 않는다.(1)` 의 해결 내용과 같다. 
 
   - ### Position-wise Feed-Forward Networks
     attention sub-layers 외'에도 encoder 및 decoder의 각 계층에는 각 위치에 개별적이고 동일하게 적용되는 fully connected feed-forward network 가 포함된다. 이것은 사이에 ReLU 활성화가 있는 두 개의 선형 변환으로 구성된다.
@@ -116,7 +120,7 @@ Transformer는 오로지 Self-attention에 의존한 첫번째 변환 모델이�
   - ### Embeddings and Softmax
     다른 sequence 변환 모델과 비슷하게, 우리는 input tokens 과 output tokens를 $d_{model}$ 차원 벡터로 바꾸기 위해 학습된 embeddings 을 사용한다. 우리는 또한 decoder 출력을 예측된 next-token 확률로 바꾸기 위해 학습된 선형 변환과 softmax함수를 사용한다. 우리 모델에서는 2개의 embedding layers 와 pre-softmax(예측 softmax) 선형 변환 간에 같은 가중치 행렬을 공유한다. embedding layer에서는 $\sqrt{d_{model}}$을 가중치에 곱한다.
     - `코드를 봐야 알 것 같다.(3)` - 해결
-      - [코드와 설명 주석이 있는 링크]()
+      - [코드와 설명 주석이 있는 링크](https://github.com/DeepFocuser/Pytorch-Transformer/blob/main/core/model/InputLayer.py)
       - https://nlp.seas.harvard.edu/2018/04/03/attention.html 에 Shared Embeddings 이란 제목으로 설명되어 있다.
   - ### Positional Encoding
     transformer는 recurrence 와 convolution을 포함하고 있지 않기 때문에 모델이 시간 순서정보를 사용하게 하기 위해서, sequence의 토큰의 상대적 위치 또는 절대적 위치에 어떤 정보를 넣어줘야만 한다. 이를 위해서 encoder와 decoder stacks의 아랫부분의 input embeddings에 `positional encoding`이라는 것을 추가한다. embeddings과 `positional encoding`이 덧셈이 가능하게 하기 위해 `positional encoding` 은  embeddings과 같이 $d_{model}$ 차원을 가진다. 
@@ -129,8 +133,8 @@ Transformer는 오로지 Self-attention에 의존한 첫번째 변환 모델이�
 
     - `여기 내용을 이해가기가 쉽지 않다.(4)`
       - seq2seq 모델같은 경우는 RNN을 사용하므로, 입력 자체에 시간 속성이 부여되어 있다. 그런데 transformer같은 경우는 그런게 없다. 그래서 transformer의 encoder, decoder에 시간 속성을 부여하기 위해서 위의 sin, cos 함수를 더해주는 것이다.
-      - [코드와 설명 주석이 있는 링크]()
-      - [위 코드에서 생성한 Positional Encoding 그림]() 
+      - [코드와 설명 주석이 있는 링크](https://github.com/DeepFocuser/Pytorch-Transformer/blob/main/core/model/InputLayer.py)
+      - [위 코드에서 생성한 Positional Encoding 그림](https://github.com/DeepFocuser/Pytorch-Transformer/blob/main/core/model/pe.png) 
 
 아래의 내용부터는 그렇게 중요하다고 생각되지 않는다. 
 따라서 무슨내용을 다뤘는지만 간단히 설명하고 넘어간다.
@@ -172,5 +176,6 @@ Transformer 모델을 input-output 구조를 가지고 있는 문제들(images, 
 논문을 리뷰하며 이해가 잘 되지 않는 부분들이 있었다.(표시해 놓음.) 
 이제 코드를 분석하면서 내가 제대로 이해하지 못한 부분을 채워나가는 
 시간이 필요할 것 같다.
+  * 며칠에 걸쳐서 독일어-영어 번역기 Transformer 모델 구현을 완료했다. 역시 논문을 읽는 것과 구현 사이에는 엄청난 괴리가 있었다. 수많은 사이트들을 참고했고, 하나하나 직접 쳐가면서 구현했다. 그 결과는 [여기 내 깃허브 저장소](https://github.com/DeepFocuser/Pytorch-Transformer)에 있다. 상세한 설명, 참고자료등을 많이 달아놨으니, 누군가에겐 도움이 되길...
 
 <!-- https://ghdic.github.io/math/default/mathjax-%EB%AC%B8%EB%B2%95/ -->
