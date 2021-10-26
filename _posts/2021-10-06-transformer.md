@@ -2,7 +2,7 @@
 title: Attention Is ALL You Need
 author: JONGGON KIM
 date: 2021-10-06 20:00:00 +0900
-categories: [AI, 자연어 처리, 논문리뷰]
+categories: [AI, 자연어 처리]
 tags: [Transformer]
 math: true
 mermaid: true
