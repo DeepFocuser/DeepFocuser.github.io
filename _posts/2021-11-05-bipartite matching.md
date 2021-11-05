@@ -2,7 +2,7 @@
 title: Bipartite Matching
 author: JONGGON KIM
 date: 2021-11-05 20:00:00 +0900
-categories: [알고리즘, 코드조각]
+categories: [알고리즘, 코드 조각]
 tags: [Bipartite Matching]
 math: true
 mermaid: true
