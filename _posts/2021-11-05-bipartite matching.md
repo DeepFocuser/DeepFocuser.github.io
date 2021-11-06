@@ -20,9 +20,7 @@ Bipartite Matching 알고리즘 코드 구현은 [DFS 코드](https://deepfocuse
 
 ## python 코드 구현 
 ---
-![Desktop View](https://github.com/DeepFocuser/DeepFocuser.github.io/blob/gh-pages/post/BipartiteGraph/BG.JPG?raw=true){: width="170" height="210" }
-
-위 그림의 이분 그래프(Bipartite Graph)를 가지고 Bipartite Matching(이분 매칭) 알고리즘을 해본다.
+![Desktop View](https://github.com/DeepFocuser/DeepFocuser.github.io/blob/gh-pages/post/BipartiteGraph/BG.JPG?raw=true){: width="490" height="310" }
 
 ```python
 graph = {
