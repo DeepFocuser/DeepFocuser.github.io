@@ -176,6 +176,6 @@ Transformer 모델을 input-output 구조를 가지고 있는 문제들(images, 
 논문을 리뷰하며 잘 이해가 되지 않는 부분들이 있었다.(표시해 놓음) 
 이제 코드를 구현하면서 내가 제대로 이해하지 못한 부분을 채워나가는 
 시간이 필요할 것 같다.
-  * 며칠에 걸쳐서 독일어-영어 번역기 Transformer 모델 구현을 완료했다. 역시 논문을 읽는 것과 구현 사이에는 엄청난 괴리가 있다. 수많은 사이트들을 참고했고, 하나하나 직접 구현했다. 그 결과는 [여기 내 깃허브 저장소](https://github.com/DeepFocuser/Pytorch-Transformer)에 있다. 상세한 설명과 참고 자료등을 주석으로 달아놨으니 누군가에겐 도움이 되길바란다.
+  * 며칠에 걸쳐서 독일어-영어 번역기 Transformer 모델 구현을 완료했다. 역시 논문을 읽는 것과 구현 사이에는 엄청난 괴리가 있다. 수많은 사이트들을 참고했고, 하나하나 직접 구현했다. 그 결과는 [여기 내 깃허브 저장소](https://github.com/DeepFocuser/Pytorch-Transformer)에 있다. 상세한 설명과 참고 자료등을 주석으로 달아놨으니 누군가에게 도움이 되길바란다.
 
 <!-- https://ghdic.github.io/math/default/mathjax-%EB%AC%B8%EB%B2%95/ -->
