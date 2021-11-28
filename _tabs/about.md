@@ -3,6 +3,6 @@ title: About me
 icon: fas fa-info-circle
 order: 4
 ---
+내 이름은 종곤
 
-
-> **Note**: Add Markdown syntax content to file `_tabs/about.md` and it will show up on this page.
+[Linkedin](https://www.linkedin.com/in/kim-jonggon-37ba19120)

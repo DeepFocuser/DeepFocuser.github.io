@@ -9,7 +9,8 @@ mermaid: true
 # pin: true
 ---
 
-[DETR](https://arxiv.org/abs/2005.12872) 논문을 읽기에 앞서 Maximum Bipartite Matching 알고리즘에 대한 이해가 필요하여 정리해본다.(사실 Optimal Bipartite Matching에 대한 내용이 필요)
+[DETR](https://arxiv.org/abs/2005.12872) 논문을 읽기에 앞서 ~~Maximum Bipartite Matching 알고리즘에 대한 이해가 필요하여 정리해본다.~~ 사실 [`Optimal Bipartite Matching-Hungarian algorithm`](https://deepfocuser.github.io/posts/hungarian-algorithm/)에 대한 내용이 필요하다.
+DETR을 이해하는데 있어 Maximum Bipartite Matching이 필요한건 아니지만 알고리즘 공부겸 남겨놓자
 
 Maximum Bipartite Matching 알고리즘 코드 구현은 [DFS 코드](https://deepfocuser.github.io/posts/bfsdfs/)를 기반으로 한다.
 
