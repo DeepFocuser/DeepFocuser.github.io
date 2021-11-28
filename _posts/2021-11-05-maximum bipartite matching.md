@@ -1,19 +1,19 @@
 ---
-title: Bipartite Matching
+title: Maximum Bipartite Matching
 author: JONGGON KIM
 date: 2021-11-05 20:00:00 +0900
 categories: [알고리즘, 코드 조각]
-tags: [Bipartite Matching]
+tags: [Maximum Bipartite Matching]
 math: true
 mermaid: true
 # pin: true
 ---
 
-[DETR](https://arxiv.org/abs/2005.12872) 논문을 읽기에 앞서 Bipartite Matching 알고리즘에 대한 이해가 필요하여 정리해본다.
+[DETR](https://arxiv.org/abs/2005.12872) 논문을 읽기에 앞서 Maximum Bipartite Matching 알고리즘에 대한 이해가 필요하여 정리해본다.(사실 Optimal Bipartite Matching에 대한 내용이 필요)
 
-Bipartite Matching 알고리즘 코드 구현은 [DFS 코드](https://deepfocuser.github.io/posts/bfsdfs/)를 기반으로 한다.
+Maximum Bipartite Matching 알고리즘 코드 구현은 [DFS 코드](https://deepfocuser.github.io/posts/bfsdfs/)를 기반으로 한다.
 
-## Bipartite Matching(이분 매칭)
+## Maximum Bipartite Matching(이분 매칭)
 ---
 두 개의 정점 그룹이 존재할 때 모든 간선(경로)의 용량이 1이면서 양쪽 정점이 서로 다른 그룹에 속하는 그래프를 이분 그래프(Bipartite Graph)라고 한다. 예를 들어, 한쪽 그룹은 X 그룹, 다른 한쪽 그룹은 Y 그룹이라고 할 때 모든 경로의 방향이 X->Y인 그래프의 최대 유량을 구하는 것이 Bipartite Matching(이분 매칭)이다.`이분 매칭을 통해 구하고자 하는 것은 최대 매칭 수이다.` 매칭을 한다는 것은 어떤 정점이 그것이 가리키는 위치의 다른 정점을 점유한 상태를 말하며
 각 정점은 한 개씩만 점유 가능하고 여러개의 정점을 점유할 수 없다.
